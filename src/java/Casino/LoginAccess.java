@@ -42,6 +42,10 @@ public class LoginAccess extends HttpServlet {
         }
 
         processRequest(request, response);
+        
+        int x;
+        int y;
+        int z;
     }
 
     @Override
