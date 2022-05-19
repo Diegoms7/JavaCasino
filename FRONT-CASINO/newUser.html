@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>NewUser</title>
+    <link rel="stylesheet" href="style/styleNewUser.css">
+    <script src="js_casino.js"></script>
+</head>
+
+<body>
+    <div>
+        <input type="text" name="DNI" id="id" minlength="8" maxlength="12" placeholder="Ingresa tu DNI">
+        <input type="text" name="nombre" id="name" placeholder="Ingresa tu nombre">
+        <input type="text" name="apellidos" id="surnames" placeholder="Ingresa tus apellidos">
+        <input type="date" name="date" id="date" value="0000-01-01">
+        <input type="password" name="password" id="password" minlength="8" maxlength="16"
+            placeholder="Ingresa tu password">
+    </div>
+    <button onclick="newUser()">Crear</button>
+    <div>
+        <p id="Msg">USUARIO CREADO CON ÉXITO!</p>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Casino</title>
+        <link rel="stylesheet" href="style/stylesheet.css">
+        <script src="js_casino.js"></script>
+        <a style="color: white;" href="newUser.html">Crea un usuario:</a>
+        <div id="login">
+            INICIO DE SESIÓN:
+            <input type="password" name="password" class="loginbox" id="password" minlength="8" placeholder="Contraseña">
+            <input type="text" name="user" id="username" class="loginbox" minlength="6" maxlength="12" placeholder="DNI">
+            <button class="button" onclick="login()">LOGIN</button>
+        </div>
+    </head>
+    <body>
+        
+        <div id="user"></div><br><br>
+        <div id="main">
+            <section class="reel1">
+                <img class="slot" id="num1" src="Images/incognita.png">
+                <img class="slot" id="num4" src="Images/incognita.png">
+                <img class="slot" id="num7" src="Images/incognita.png">
+            </section>
+            
+            <section class="reel2">
+                <img class="slot" id="num2" src="Images/incognita.png">
+                <img class="slot" id="num5" src="Images/incognita.png">
+                <img class="slot" id="num8" src="Images/incognita.png">
+            </section>
+            <section class="reel3">
+                <img class="slot" id="num3" src="Images/incognita.png">
+                <img class="slot" id="num6" src="Images/incognita.png">
+                <img class="slot" id="num9" src="Images/incognita.png">
+            </section>
+        </div>
+        
+        <div id="reward">
+            <div id="text" class="rewtext">HAS GANADO: </div>
+            <div class="rewtext">
+                <button id="spin" class="button" onclick="slot()" disabled>GIRAR</button>
+            </div>
+        </div>
+        <div id="bet">
+            Introduce tu apuesta: <input type="number" name="bet" id="betbox" step="0.01" min="0.01" max="100">
+            <button class="button" onclick="bet()">APOSTAR</button>
+        </div>
+        
+    </body>
+    <footer></footer>
+</html>
