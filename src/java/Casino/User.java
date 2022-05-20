@@ -11,13 +11,13 @@ public class User {
     private double credito;
 
     public User(int id, String password, String nombre, String apellido, String dni, String fechaNacimiento) {
-        this.setId(id);
-        this.setPassword(password);
-        this.setNombre(nombre);
-        this.setApellido(apellido);
-        this.setDni(dni);
-        this.setFechaNacimiento(fechaNacimiento);
-        this.setCredito(credito);
+        this.id = id;
+        this.password = password;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.dni = dni;
+        this.fechaNacimiento = fechaNacimiento;
+        this.credito = credito;
     }
 
     public String getPassword() {

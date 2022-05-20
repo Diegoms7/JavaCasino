@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 
 @WebServlet(name = "LoginAccess", urlPatterns = {"/LoginAccess"})
 public class LoginAccess extends HttpServlet {
-    static User user;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -31,12 +30,19 @@ public class LoginAccess extends HttpServlet {
             out.println("</html>");*/
         }
     }
-    
-    
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response, boolean verify, User user)
             throws ServletException, IOException {
 
+        if(verify == true){
+            response.getWriter().append("{\"ID\":\"" + user.getId() + "\",\"DNI\":\"" + user.toStringDNI() + "\",\"FullName\":\"" + user.toStringFullName() + "\",\"Birth\":\"" + user.toStringNacimiento() + "\",\"Name\":\"" + user.toStringNombre() + "\", \"Check\":" + verify + "}");
+        }
+        else{
+            response.getWriter().append("{\"ID\":\"" + user.getId() + "\",\"DNI\":\"" + user.toStringDNI() + "\",\"FullName\":\"" + user.toStringFullName() + "\",\"Birth\":\"" + user.toStringNacimiento() + "\",\"Name\":\"" + user.toStringNombre() + "\", \"Check\":" + verify + "}");
+        }
+
+        processRequest(request, response);
+        
     }
 
     @Override
@@ -45,9 +51,8 @@ public class LoginAccess extends HttpServlet {
 
         response.addHeader("Access-Control-Allow-Origin", "*");
         boolean verify = false;
-        
 
-        user = new User(-1, request.getParameter("password"), "", "", request.getParameter("username"), "");
+        User user = new User(-1, request.getParameter("password"), "", "", request.getParameter("username"), "");
 
         try {
             verify = QueryClass.login(user);
@@ -59,18 +64,14 @@ public class LoginAccess extends HttpServlet {
         if(verify == true){
             try {
                 user = QueryClass.userData(user);
-                
-                response.getWriter().append("{\"ID\":\"" + user.getId() + "\",\"DNI\":\"" + user.toStringDNI() + "\",\"FullName\":\"" + user.toStringFullName() + "\",\"Birth\":\"" + user.toStringNacimiento() + "\",\"Name\":\"" + user.toStringNombre() + "\", \"Check\":" + verify + "}");
             } catch (SQLException ex) {
                 Logger.getLogger(LoginAccess.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        else{
-            response.getWriter().append("{\"ID\":\"" + user.getId() + "\",\"DNI\":\"" + user.toStringDNI() + "\",\"FullName\":\"" + user.toStringFullName() + "\",\"Birth\":\"" + user.toStringNacimiento() + "\",\"Name\":\"" + user.toStringNombre() + "\", \"Check\":" + verify + "}");
-        }
         
+        doGet(request, response, verify, user);
         
-        
+
     }
 
     @Override
