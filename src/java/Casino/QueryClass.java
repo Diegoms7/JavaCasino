@@ -24,10 +24,19 @@ public class QueryClass {
         }
 
         Connection con = DriverManager.getConnection(JDBC, "root","43226225w");
-        String query = "SELECT contrasenia FROM contrasenia WHERE contrasenia.idUsuario = (SELECT id FROM usuario WHERE usuario.DNI = " +"\"" + user.getDni().toUpperCase() + "\");";
-
+        String psswd = "SELECT contrasenia FROM contrasenia WHERE contrasenia.idUsuario = (SELECT id FROM usuario WHERE usuario.DNI = " +"\"" + user.getDni().toUpperCase() + "\");";
+        String username = "SELECT existe('" + user.getDni() + "') AS existe;";
+        
         Statement st = con.createStatement();
-        ResultSet rs = st.executeQuery(query);
+        
+        ResultSet rs1 = st.executeQuery(username);
+        while (rs1.next()){
+            if (rs1.getBoolean(username) == false){
+                login = false;
+            }
+        }
+        
+        ResultSet rs = st.executeQuery(psswd);
 
         while (rs.next()) {
             String password = rs.getString("contrasenia");
@@ -75,9 +84,9 @@ public class QueryClass {
 
     }
 
-    public static void updateDB(User user, double bet, double reward, int id) throws SQLException {
+    public static void updateDB(User user, Partida partida) throws SQLException {
 
-        double balance = reward - bet;
+        
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
@@ -92,7 +101,7 @@ public class QueryClass {
 
         Statement st = con.createStatement();
 
-        String update = "INSERT INTO partida VALUES (\"" + id + "\",\"" + user.getId() + "\",\"" + bet + "\",\"" + balance + "\",\"" + dtf.format(now) + "\");";
+        String update = "INSERT INTO partida VALUES (\"" + partida.getIdJuego() + "\", \"" + user.getId() + "\", \"" + partida.getBet() + "\",\"" + partida.getBalance() + "\",\"" + partida.getFechaHora() + "\");";
 
         st.executeUpdate(update);
 

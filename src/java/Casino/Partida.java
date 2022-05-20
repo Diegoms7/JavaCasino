@@ -9,16 +9,18 @@ public class Partida {
     private double bet;
     private double balance;
     private String fechaHora;
+    private static int autoincrement = 0;
 
     public Partida() {
     }
 
-    public Partida(int id, int idJuego, double bet, double balance, String fechaHora) {
-        this.id = id;
-        this.idJuego = idJuego;
-        this.bet = bet;
-        this.balance = balance;
-        this.fechaHora = fechaHora;
+    public Partida(int idJuego, double bet, double balance, String fechaHora) {
+        autoincrement++;
+        this.setId(autoincrement);
+        this.setIdJuego(idJuego);
+        this.setBet(bet);
+        this.setBalance(balance);
+        this.setFechaHora(fechaHora);
     }
 
     public int getId() {

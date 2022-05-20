@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -68,7 +70,10 @@ public class SlotGame extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-            
+        
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        
         response.addHeader("Access-Control-Allow-Origin", "*");
         
         int id = 3;
@@ -94,8 +99,13 @@ public class SlotGame extends HttpServlet {
         
         reward = Math.floor(reward * 100) / 100;
         
+        double balance = reward - bet;
+        
+        partida = new Partida (3, bet, balance, dtf.format(now));
+        
+        
         try {
-            QueryClass.updateDB(user,bet,reward, id);
+            QueryClass.updateDB(user, partida);
         } catch (SQLException ex) {
             Logger.getLogger(SlotGame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -120,13 +130,6 @@ public class SlotGame extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        
-        bet = Double.parseDouble(request.getParameter("bet"));
-        
-        partida = new Partida(1, 1, bet, 1.00, "10:15");
-        
-        response.getWriter().append("bet: "+partida.getBet());
         
     }
 

@@ -30,20 +30,11 @@ public class LoginAccess extends HttpServlet {
             out.println("</html>");*/
         }
     }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response, boolean verify, User user)
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        if(verify == true){
-            response.getWriter().append("{\"ID\":\"" + user.getId() + "\",\"DNI\":\"" + user.toStringDNI() + "\",\"FullName\":\"" + user.toStringFullName() + "\",\"Birth\":\"" + user.toStringNacimiento() + "\",\"Name\":\"" + user.toStringNombre() + "\", \"Check\":" + verify + "}");
-        }
-        else{
-            response.getWriter().append("{\"ID\":\"" + user.getId() + "\",\"DNI\":\"" + user.toStringDNI() + "\",\"FullName\":\"" + user.toStringFullName() + "\",\"Birth\":\"" + user.toStringNacimiento() + "\",\"Name\":\"" + user.toStringNombre() + "\", \"Check\":" + verify + "}");
-        }
-
-        processRequest(request, response);
-        
-    }
+     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -60,17 +51,19 @@ public class LoginAccess extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(LoginAccess.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        if(verify == true){
+
+        if (verify == true) {
             try {
                 user = QueryClass.userData(user);
+                response.getWriter().append("{\"ID\":\"" + user.getId() + "\",\"DNI\":\"" + user.toStringDNI() + "\",\"FullName\":\"" + user.toStringFullName() + "\",\"Birth\":\"" + user.toStringNacimiento() + "\",\"Name\":\"" + user.toStringNombre() + "\", \"Check\":" + verify + "}");
+
             } catch (SQLException ex) {
                 Logger.getLogger(LoginAccess.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else {
+            response.getWriter().append("{\"ID\":\"" + user.getId() + "\",\"DNI\":\"" + user.toStringDNI() + "\",\"FullName\":\"" + user.toStringFullName() + "\",\"Birth\":\"" + user.toStringNacimiento() + "\",\"Name\":\"" + user.toStringNombre() + "\", \"Check\":" + verify + "}");
+
         }
-        
-        doGet(request, response, verify, user);
-        
 
     }
 
