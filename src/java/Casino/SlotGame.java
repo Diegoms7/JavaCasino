@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -102,7 +103,9 @@ public class SlotGame extends HttpServlet {
         double balance = reward - bet;
         
         partida = new Partida (3, bet, balance, dtf.format(now));
-        
+        HttpSession session = request.getSession();
+        user = (User)session.getAttribute("usuario");
+                
         
         try {
             QueryClass.updateDB(user, partida);

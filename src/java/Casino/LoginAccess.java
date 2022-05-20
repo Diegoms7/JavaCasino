@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -56,10 +57,14 @@ public class LoginAccess extends HttpServlet {
             try {
                 user = QueryClass.userData(user);
                 response.getWriter().append("{\"ID\":\"" + user.getId() + "\",\"DNI\":\"" + user.toStringDNI() + "\",\"FullName\":\"" + user.toStringFullName() + "\",\"Birth\":\"" + user.toStringNacimiento() + "\",\"Name\":\"" + user.toStringNombre() + "\", \"Check\":" + verify + "}");
-
+                
             } catch (SQLException ex) {
                 Logger.getLogger(LoginAccess.class.getName()).log(Level.SEVERE, null, ex);
             }
+        HttpSession session = request.getSession();
+        
+        session.setAttribute("usuario", user);
+        
         } else {
             response.getWriter().append("{\"ID\":\"" + user.getId() + "\",\"DNI\":\"" + user.toStringDNI() + "\",\"FullName\":\"" + user.toStringFullName() + "\",\"Birth\":\"" + user.toStringNacimiento() + "\",\"Name\":\"" + user.toStringNombre() + "\", \"Check\":" + verify + "}");
 
