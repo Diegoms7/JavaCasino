@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,9 +26,15 @@ import java.util.logging.Logger;
 @WebServlet(name = "SlotGame", urlPatterns = {"/SlotGame"})
 public class SlotGame extends HttpServlet {
     
-    User user;
-    double bet = 0.00;
+    static User user;
     Partida partida;
+
+    double bet = 0.00;
+
+    public SlotGame() {
+        this.user = LoginAccess.user;
+    }
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -94,19 +102,22 @@ public class SlotGame extends HttpServlet {
         
         reward = Math.floor(reward * 100) / 100;
         
+        double balance = reward - bet;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        
+        partida = new Partida (3, bet, balance, dtf.format(now));
+        
+        
         try {
-            QueryClass.updateDB(user,bet,reward, id);
+            QueryClass.updateDB(partida, id, user);
         } catch (SQLException ex) {
             Logger.getLogger(SlotGame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        
-        //response.getWriter().append(reel1.toString()+reel2.toString()+reel3.toString());
         response.getWriter().append("{\"num1\":\""+reel1.getNum1()+"\",\"num2\":\""+reel1.getNum2()+"\",\"num3\":\""+reel1.getNum3()+"\",\"num4\":\""+reel2.getNum1()+"\",\"num5\":\""+reel2.getNum2()+"\",\"num6\":\""+reel2.getNum3()+"\",\"num7\":\""+reel3.getNum1()+"\",\"num8\":\""+reel3.getNum2()+"\",\"num9\":\""+reel3.getNum3()+"\",\"reward\":\""+reward+"\"}");
-        processRequest(request, response);
         
-        
-    }
+     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -120,13 +131,8 @@ public class SlotGame extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        
         bet = Double.parseDouble(request.getParameter("bet"));
         
-        partida = new Partida(1, 1, bet, 1.00, "10:15");
-        
-        response.getWriter().append("bet: "+partida.getBet());
         
     }
 
@@ -138,6 +144,10 @@ public class SlotGame extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
+    
+    
+
+// </editor-fold>
 
 }

@@ -1,24 +1,26 @@
-
 package Casino;
 
-
 public class Partida {
-    
+
     private int id;
     private int idJuego;
     private double bet;
     private double balance;
     private String fechaHora;
+    private static int autoincrement = 0;
 
     public Partida() {
+        autoincrement++;
+        this.id = autoincrement;
     }
 
-    public Partida(int id, int idJuego, double bet, double balance, String fechaHora) {
-        this.id = id;
-        this.idJuego = idJuego;
-        this.bet = bet;
-        this.balance = balance;
-        this.fechaHora = fechaHora;
+    public Partida(int idJuego, double bet, double balance, String fechaHora) {
+        autoincrement++;
+        this.setId(autoincrement);
+        this.setIdJuego(idJuego);
+        this.setBet(bet);
+        this.setBalance(balance);
+        this.setFechaHora(fechaHora);
     }
 
     public int getId() {
@@ -43,6 +45,7 @@ public class Partida {
 
     public void setId(int id) {
         this.id = id;
+        
     }
 
     public void setIdJuego(int idJuego) {
@@ -65,7 +68,5 @@ public class Partida {
     public String toString() {
         return "Partida{" + "id=" + id + ", idJuego=" + idJuego + ", bet=" + bet + ", balance=" + balance + ", fechaHora=" + fechaHora + '}';
     }
-    
-    
 
 }
