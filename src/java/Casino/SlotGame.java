@@ -71,11 +71,12 @@ public class SlotGame extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        response.addHeader("Access-Control-Allow-Origin", "*");
         
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         
-        response.addHeader("Access-Control-Allow-Origin", "*");
+        
         
         int id = 3;
         
@@ -133,7 +134,8 @@ public class SlotGame extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        bet = Double.parseDouble(request.getParameter("bet"));
     }
 
     /**
