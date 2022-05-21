@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  */
 @WebServlet(name = "SlotGame", urlPatterns = {"/SlotGame"})
 public class SlotGame extends HttpServlet {
-    
+
     User user;
     double bet = 0.00;
     Partida partida;
@@ -54,7 +54,7 @@ public class SlotGame extends HttpServlet {
             out.println("<h1>Servlet SlotGame at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-            */
+             */
         }
     }
 
@@ -70,56 +70,58 @@ public class SlotGame extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         response.addHeader("Access-Control-Allow-Origin", "*");
-        
+
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        
-        
-        
+
         int id = 3;
-        
+
         Reel reel1 = new Reel();
         Reel reel2 = new Reel();
         Reel reel3 = new Reel();
-        
+
         reel1.setNum1(reel1.numberSelector(reel1.getRandomNumber()));
         reel1.setNum2(reel1.numberSelector(reel1.getRandomNumber()));
         reel1.setNum3(reel1.numberSelector(reel1.getRandomNumber()));
-        
+
         reel2.setNum1(reel2.numberSelector(reel2.getRandomNumber()));
         reel2.setNum2(reel2.numberSelector(reel2.getRandomNumber()));
         reel2.setNum3(reel2.numberSelector(reel2.getRandomNumber()));
-        
+
         reel3.setNum1(reel3.numberSelector(reel3.getRandomNumber()));
         reel3.setNum2(reel3.numberSelector(reel3.getRandomNumber()));
         reel3.setNum3(reel3.numberSelector(reel3.getRandomNumber()));
-        
-        
+
         double reward = Reel.rewardCalculator(partida, reel1, reel2, reel3);
-        
+
         reward = Math.floor(reward * 100) / 100;
-        
+
+        System.out.println("reward:" + reward);
+
         double balance = reward - bet;
+
+        System.out.println("balance: " + balance);
+
+        partida = new Partida(id, bet, balance, dtf.format(now));
+
+        System.out.println("bet:" + partida.getBet());
+
+        /*HttpSession session = request.getSession();
+        user = (User) session.getAttribute("usuario"); */
+
+        System.out.println(LoginAccess.user.toString());
         
-        partida = new Partida (3, bet, balance, dtf.format(now));
-        HttpSession session = request.getSession();
-        user = (User)session.getAttribute("usuario");
-                
         
+        response.getWriter().append("{\"num1\":\"" + reel1.getNum1() + "\",\"num2\":\"" + reel1.getNum2() + "\",\"num3\":\"" + reel1.getNum3() + "\",\"num4\":\"" + reel2.getNum1() + "\",\"num5\":\"" + reel2.getNum2() + "\",\"num6\":\"" + reel2.getNum3() + "\",\"num7\":\"" + reel3.getNum1() + "\",\"num8\":\"" + reel3.getNum2() + "\",\"num9\":\"" + reel3.getNum3() + "\",\"reward\":\"" + reward + "\"}");
+        /*
         try {
             QueryClass.updateDB(user, partida);
         } catch (SQLException ex) {
             Logger.getLogger(SlotGame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        //response.getWriter().append(reel1.toString()+reel2.toString()+reel3.toString());
-        response.getWriter().append("{\"num1\":\""+reel1.getNum1()+"\",\"num2\":\""+reel1.getNum2()+"\",\"num3\":\""+reel1.getNum3()+"\",\"num4\":\""+reel2.getNum1()+"\",\"num5\":\""+reel2.getNum2()+"\",\"num6\":\""+reel2.getNum3()+"\",\"num7\":\""+reel3.getNum1()+"\",\"num8\":\""+reel3.getNum2()+"\",\"num9\":\""+reel3.getNum3()+"\",\"reward\":\""+reward+"\"}");
-        processRequest(request, response);
-        
-        
+        } */
+
     }
 
     /**
@@ -133,9 +135,10 @@ public class SlotGame extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         response.addHeader("Access-Control-Allow-Origin", "*");
-        bet = Double.parseDouble(request.getParameter("bet"));
+        this.bet = Double.parseDouble(request.getParameter("bet"));
+
     }
 
     /**

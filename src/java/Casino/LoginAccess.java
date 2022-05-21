@@ -14,6 +14,8 @@ import java.util.logging.Logger;
 
 @WebServlet(name = "LoginAccess", urlPatterns = {"/LoginAccess"})
 public class LoginAccess extends HttpServlet {
+    
+    static User user;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -31,11 +33,12 @@ public class LoginAccess extends HttpServlet {
             out.println("</html>");*/
         }
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-     }
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -44,10 +47,10 @@ public class LoginAccess extends HttpServlet {
         response.addHeader("Access-Control-Allow-Origin", "*");
         boolean verify = false;
 
-        User user = new User(-1, request.getParameter("password"), "", "", request.getParameter("username"), "");
+        this.user = new User(-1, request.getParameter("password"), "", "", request.getParameter("username"), "");
 
         try {
-            verify = QueryClass.login(user);
+            verify = QueryClass.login(this.user);
 
         } catch (SQLException ex) {
             Logger.getLogger(LoginAccess.class.getName()).log(Level.SEVERE, null, ex);
@@ -55,18 +58,21 @@ public class LoginAccess extends HttpServlet {
 
         if (verify == true) {
             try {
-                user = QueryClass.userData(user);
-                response.getWriter().append("{\"ID\":\"" + user.getId() + "\",\"DNI\":\"" + user.toStringDNI() + "\",\"FullName\":\"" + user.toStringFullName() + "\",\"Birth\":\"" + user.toStringNacimiento() + "\",\"Name\":\"" + user.toStringNombre() + "\", \"Check\":" + verify + "}");
+                this.user.setNombre(QueryClass.userData(this.user).getNombre());
+                this.user.setApellido(QueryClass.userData(this.user).getApellido());
+                this.user.setFechaNacimiento(QueryClass.userData(this.user).getFechaNacimiento());
+                
+                response.getWriter().append("{\"ID\":\"" + this.user.getId() + "\",\"DNI\":\"" + this.user.toStringDNI() + "\",\"FullName\":\"" + this.user.toStringFullName() + "\",\"Birth\":\"" + this.user.toStringNacimiento() + "\",\"Name\":\"" + this.user.toStringNombre() + "\", \"Check\":" + verify + "}");
+                
+                HttpSession session = request.getSession();
+                session.setAttribute("usuario", this.user);
                 
             } catch (SQLException ex) {
                 Logger.getLogger(LoginAccess.class.getName()).log(Level.SEVERE, null, ex);
             }
-        HttpSession session = request.getSession();
-        
-        session.setAttribute("usuario", user);
-        
+
         } else {
-            response.getWriter().append("{\"ID\":\"" + user.getId() + "\",\"DNI\":\"" + user.toStringDNI() + "\",\"FullName\":\"" + user.toStringFullName() + "\",\"Birth\":\"" + user.toStringNacimiento() + "\",\"Name\":\"" + user.toStringNombre() + "\", \"Check\":" + verify + "}");
+            response.getWriter().append("{\"ID\":\"" + this.user.getId() + "\",\"DNI\":\"" + this.user.toStringDNI() + "\",\"FullName\":\"" + this.user.toStringFullName() + "\",\"Birth\":\"" + this.user.toStringNacimiento() + "\",\"Name\":\"" + this.user.toStringNombre() + "\", \"Check\":" + verify + "}");
 
         }
 

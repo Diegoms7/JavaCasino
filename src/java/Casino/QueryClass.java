@@ -24,8 +24,9 @@ public class QueryClass {
         }
 
         Connection con = DriverManager.getConnection(JDBC, "root","43226225w");
+        
         String psswd = "SELECT contrasenia FROM contrasenia WHERE contrasenia.idUsuario = (SELECT id FROM usuario WHERE usuario.DNI = " +"\"" + user.getDni().toUpperCase() + "\");";
-        String username = "SELECT existe('" + user.getDni() + "') AS existe;";
+        String username = "SELECT existe('" + user.getDni() + "');";
         
         Statement st = con.createStatement();
         
