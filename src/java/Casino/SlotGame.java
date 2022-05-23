@@ -98,21 +98,14 @@ public class SlotGame extends HttpServlet {
 
         reward = Math.floor(reward * 100) / 100;
 
-        System.out.println("reward:" + reward);
-
         double balance = reward - bet;
-
-        System.out.println("balance: " + balance);
 
         partida = new Partida(id, bet, balance, dtf.format(now));
 
-        System.out.println("bet:" + partida.getBet());
-
-        /*HttpSession session = request.getSession();
-        user = (User) session.getAttribute("usuario"); */
-
-        System.out.println(LoginAccess.user.toString());
+        HttpSession session = (HttpSession) request.getSession();
+        user = (User) session.getAttribute("usuario"); 
         
+        System.out.println(user.toString());
         
         response.getWriter().append("{\"num1\":\"" + reel1.getNum1() + "\",\"num2\":\"" + reel1.getNum2() + "\",\"num3\":\"" + reel1.getNum3() + "\",\"num4\":\"" + reel2.getNum1() + "\",\"num5\":\"" + reel2.getNum2() + "\",\"num6\":\"" + reel2.getNum3() + "\",\"num7\":\"" + reel3.getNum1() + "\",\"num8\":\"" + reel3.getNum2() + "\",\"num9\":\"" + reel3.getNum3() + "\",\"reward\":\"" + reward + "\"}");
         /*

@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 @WebServlet(name = "LoginAccess", urlPatterns = {"/LoginAccess"})
 public class LoginAccess extends HttpServlet {
     
-    static User user;
+    User user;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -64,7 +64,7 @@ public class LoginAccess extends HttpServlet {
                 
                 response.getWriter().append("{\"ID\":\"" + this.user.getId() + "\",\"DNI\":\"" + this.user.toStringDNI() + "\",\"FullName\":\"" + this.user.toStringFullName() + "\",\"Birth\":\"" + this.user.toStringNacimiento() + "\",\"Name\":\"" + this.user.toStringNombre() + "\", \"Check\":" + verify + "}");
                 
-                HttpSession session = request.getSession();
+                HttpSession session = request.getSession(true);
                 session.setAttribute("usuario", this.user);
                 
             } catch (SQLException ex) {
