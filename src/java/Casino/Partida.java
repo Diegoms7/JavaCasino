@@ -65,7 +65,11 @@ public class Partida {
 
     @Override
     public String toString() {
-        return "Partida{" + "id=" + id + ", idJuego=" + idJuego + ", bet=" + bet + ", balance=" + balance + ", fechaHora=" + fechaHora + '}';
+        return "Partida{" + "id=" + id + ", idJuego=" + idJuego + ", bet=" + bet + ", balance=" + balance + "}'";
+    }
+    
+    public String toStringDateTime(){
+        return "" + fechaHora + "";
     }
     
     

@@ -28,38 +28,37 @@ public class QueryClass {
         Connection con = DriverManager.getConnection(JDBC, "root", "43226225w");
 
         String psswd = "SELECT contrasenia FROM contrasenia WHERE contrasenia.idUsuario = (SELECT id FROM usuario WHERE usuario.DNI = " + "\"" + user.getDni().toUpperCase() + "\");";
-        
+
         Statement st = con.createStatement();
         CallableStatement cstmt = con.prepareCall("{CALL existe(? , ?)}");
 
         cstmt.setString(1, user.getDni());
-        boolean mysql = false;
-        cstmt.setBoolean(2, mysql);
-        
-        
+
+        cstmt.registerOutParameter(2, Types.BOOLEAN);
+
         System.out.println(cstmt);
-        
+
         cstmt.execute();
 
-        ResultSet rs1 = cstmt.getResultSet();
-        
-        System.out.println(rs1);
-
-        if (rs1.getBoolean(1) == false) {
-            System.out.println(cstmt.getInt(1));
+        if (cstmt.getInt(2) == 0) {
             login = false;
+            System.out.println("Usuario:" + login);
         }
 
-        ResultSet rs = st.executeQuery(psswd);
+        if (login == true) {
+            
+            ResultSet rs = st.executeQuery(psswd);
 
-        while (rs.next()) {
-            String password = rs.getString("contrasenia");
+            while (rs.next()) {
+                String password = rs.getString("contrasenia");
 
-            if (!user.getPassword().equals(password)) {
-                login = false;
+                if (!user.getPassword().equals(password)) {
+                    login = false;
+                    System.out.println("Contraseña: " + login);
+                }
             }
         }
-
+        System.out.println("Resultado:" + login);
         return login;
 
     }

@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 @WebServlet(name = "LoginAccess", urlPatterns = {"/LoginAccess"})
 public class LoginAccess extends HttpServlet {
-    
+
     User user;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -61,12 +61,12 @@ public class LoginAccess extends HttpServlet {
                 this.user.setNombre(QueryClass.userData(this.user).getNombre());
                 this.user.setApellido(QueryClass.userData(this.user).getApellido());
                 this.user.setFechaNacimiento(QueryClass.userData(this.user).getFechaNacimiento());
-                
+
                 response.getWriter().append("{\"ID\":\"" + this.user.getId() + "\",\"DNI\":\"" + this.user.toStringDNI() + "\",\"FullName\":\"" + this.user.toStringFullName() + "\",\"Birth\":\"" + this.user.toStringNacimiento() + "\",\"Name\":\"" + this.user.toStringNombre() + "\", \"Check\":" + verify + "}");
-                
+
                 HttpSession session = request.getSession(true);
                 session.setAttribute("usuario", this.user);
-                
+
             } catch (SQLException ex) {
                 Logger.getLogger(LoginAccess.class.getName()).log(Level.SEVERE, null, ex);
             }
