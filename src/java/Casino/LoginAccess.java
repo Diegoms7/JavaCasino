@@ -44,8 +44,12 @@ public class LoginAccess extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        response.setContentType("text/html;charset=UTF-8");
+
         response.addHeader("Access-Control-Allow-Origin", "*");
         boolean verify = false;
+        
+        HttpSession h = request.getSession(true);
 
         this.user = new User(-1, request.getParameter("password"), "", "", request.getParameter("username"), "");
 
@@ -61,11 +65,13 @@ public class LoginAccess extends HttpServlet {
                 this.user.setNombre(QueryClass.userData(this.user).getNombre());
                 this.user.setApellido(QueryClass.userData(this.user).getApellido());
                 this.user.setFechaNacimiento(QueryClass.userData(this.user).getFechaNacimiento());
+                this.user.setId((QueryClass.userData(this.user).getId()));
 
                 response.getWriter().append("{\"ID\":\"" + this.user.getId() + "\",\"DNI\":\"" + this.user.toStringDNI() + "\",\"FullName\":\"" + this.user.toStringFullName() + "\",\"Birth\":\"" + this.user.toStringNacimiento() + "\",\"Name\":\"" + this.user.toStringNombre() + "\", \"Check\":" + verify + "}");
 
-                HttpSession session = request.getSession(true);
-                session.setAttribute("usuario", this.user);
+                h.setAttribute("usuario", this.user.getId());
+                System.out.println(h.getAttribute("usuario"));
+                System.out.println("Sesion creación: " + h.getId());
 
             } catch (SQLException ex) {
                 Logger.getLogger(LoginAccess.class.getName()).log(Level.SEVERE, null, ex);

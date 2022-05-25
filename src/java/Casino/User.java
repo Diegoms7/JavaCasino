@@ -1,6 +1,9 @@
 package Casino;
 
-public class User {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class User implements Serializable{
 
     private int id;
     private String password;
@@ -19,6 +22,55 @@ public class User {
         this.setFechaNacimiento(fechaNacimiento);
         this.setCredito(credito);
     }
+    
+    public User(){
+        
+    }
+
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.credito) != Double.doubleToLongBits(other.credito)) {
+            return false;
+        }
+        if (!Objects.equals(this.password, other.password)) {
+            return false;
+        }
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        if (!Objects.equals(this.apellido, other.apellido)) {
+            return false;
+        }
+        if (!Objects.equals(this.dni, other.dni)) {
+            return false;
+        }
+        if (!Objects.equals(this.fechaNacimiento, other.fechaNacimiento)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
     public String getPassword() {
         return password;
@@ -82,8 +134,6 @@ public class User {
         return "User{" + "id=" + id + ", password=" + password + ", nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", fechaNacimiento=" + fechaNacimiento + ", credito=" + credito + '}';
     }
 
-    
-    
     public String toStringNombre() {
         return "" + nombre;
     }
@@ -106,6 +156,10 @@ public class User {
     
     public String toStringCredito(){
         return "" + credito;
+    }
+    
+    public String toStringId(){
+        return "" + id;
     }
     
 }

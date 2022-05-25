@@ -44,8 +44,6 @@ public class Reel implements numbersInterface {
         return "Reel{" + "num1:" + num1 + ", num2:" + num2 + ", num3" + num3 + '}';
     }
 
-    
-
     public int getRandomNumber() {
         int min = 0;
         int max = 140;
@@ -84,7 +82,6 @@ public class Reel implements numbersInterface {
                 reward = reward + (2 * partida.getBet() * 24) / reel1.getNum1();
             }
             reward = reward + (2 * partida.getBet() * 3) / (reel1.getNum1() / 2.0);
-            System.out.println("Linea 1 ganadora");
 
         }
 
@@ -94,7 +91,6 @@ public class Reel implements numbersInterface {
                 reward = reward + (2 * partida.getBet() * 24) / reel2.getNum1();
             }
             reward = reward + (2 * partida.getBet() * 3) / (reel2.getNum1() / 2.0);
-            System.out.println("Linea 2 ganadora");
 
         }
 
@@ -104,7 +100,6 @@ public class Reel implements numbersInterface {
                 reward = reward + (2 * partida.getBet() * 24) / reel3.getNum1();
             }
             reward = reward + (2 * partida.getBet() * 3) / (reel3.getNum1() / 2.0);
-            System.out.println("Linea 3 ganadora");
 
         }
 
@@ -114,7 +109,6 @@ public class Reel implements numbersInterface {
                 reward = reward + (2 * partida.getBet() * 18) / reel1.getNum1();
             }
             reward = reward + (2 * partida.getBet() * 2) / (reel1.getNum1() / 2.0);
-            System.out.println("Diagonal 1 ganadora");
 
         }
 
@@ -124,7 +118,6 @@ public class Reel implements numbersInterface {
                 reward = reward + (2 * partida.getBet() * 18) / reel3.getNum1();
             }
             reward = reward + (2 * partida.getBet() * 2) / (reel3.getNum1() / 2.0);
-            System.out.println("Diagonal 2 ganadora");
 
         }
 
@@ -134,7 +127,6 @@ public class Reel implements numbersInterface {
                 reward = reward + (2 * partida.getBet() * 12) / reel1.getNum1();
             }
             reward = reward + (2 * partida.getBet()) * 1.5 / (reel1.getNum1() / 2.0);
-            System.out.println("Combinada 1 ganadora");
 
         }
 
@@ -144,7 +136,6 @@ public class Reel implements numbersInterface {
                 reward = reward + (2 * partida.getBet() * 12) / reel3.getNum1();
             }
             reward = reward + (2 * partida.getBet() * 1.5) / (reel3.getNum1() / 2.0);
-            System.out.println("Combinada 2 ganadora");
 
         }
 
@@ -154,7 +145,7 @@ public class Reel implements numbersInterface {
                 reward = reward + (2 * partida.getBet() * 12) / reel2.getNum1();
             }
             reward = reward + (2 * partida.getBet()) * 1.5 / (reel2.getNum1() / 2.0);
-            System.out.println("Combinada 3 ganadora");
+
         }
 
         if (reel2.getNum1() == reel1.getNum2() && reel2.getNum1() == reel1.getNum3()) {
@@ -163,7 +154,7 @@ public class Reel implements numbersInterface {
                 reward = reward + (2 * partida.getBet() * 12) / reel2.getNum1();
             }
             reward = reward + (2 * partida.getBet() * 1.5) / (reel2.getNum1() / 2.0);
-            System.out.println("Combinada 4 ganadora");
+
         }
 
         if (reel2.getNum1() == reel1.getNum2() && reel2.getNum1() == reel2.getNum3()) {
@@ -172,7 +163,7 @@ public class Reel implements numbersInterface {
                 reward = reward + (2 * partida.getBet() * 12) / reel2.getNum1();
             }
             reward = reward + (2 * partida.getBet() * 1.5) / (reel2.getNum1() / 2.0);
-            System.out.println("Combinada 4 ganadora");
+
         }
 
         if (reel2.getNum1() == reel3.getNum2() && reel2.getNum1() == reel2.getNum3()) {
@@ -181,7 +172,7 @@ public class Reel implements numbersInterface {
                 reward = reward + (2 * partida.getBet() * 12) / reel2.getNum1();
             }
             reward = reward + (2 * partida.getBet() * 1.5) / (reel2.getNum1() / 2.0);
-            System.out.println("Combinada 4 ganadora");
+
         }
 
         return reward;

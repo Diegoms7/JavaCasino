@@ -36,13 +36,11 @@ public class QueryClass {
 
         cstmt.registerOutParameter(2, Types.BOOLEAN);
 
-        System.out.println(cstmt);
-
         cstmt.execute();
 
         if (cstmt.getInt(2) == 0) {
             login = false;
-            System.out.println("Usuario:" + login);
+            
         }
 
         if (login == true) {
@@ -54,11 +52,11 @@ public class QueryClass {
 
                 if (!user.getPassword().equals(password)) {
                     login = false;
-                    System.out.println("Contraseña: " + login);
+                    
                 }
             }
         }
-        System.out.println("Resultado:" + login);
+        
         return login;
 
     }
@@ -96,7 +94,7 @@ public class QueryClass {
 
     }
 
-    public static void updateDB(User user, Partida partida) throws SQLException {
+    public static void updateDB(int idUser, Partida partida) throws SQLException {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
@@ -111,7 +109,7 @@ public class QueryClass {
 
         Statement st = con.createStatement();
 
-        String update = "INSERT INTO partida VALUES (\"" + partida.getIdJuego() + "\", \"" + user.getId() + "\", \"" + partida.getBet() + "\",\"" + partida.getBalance() + "\",\"" + partida.getFechaHora() + "\");";
+        String update = "INSERT INTO partida VALUES (\"" + partida.getIdJuego() + "\", \"" + idUser + "\", \"" + partida.getBet() + "\",\"" + partida.getBalance() + "\",\"" + partida.getFechaHora() + "\");";
 
         st.executeUpdate(update);
 

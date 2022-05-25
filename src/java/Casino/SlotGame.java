@@ -93,35 +93,29 @@ public class SlotGame extends HttpServlet {
         reel3.setNum1(reel3.numberSelector(reel3.getRandomNumber()));
         reel3.setNum2(reel3.numberSelector(reel3.getRandomNumber()));
         reel3.setNum3(reel3.numberSelector(reel3.getRandomNumber()));
-        
+
         partida = new Partida(id, bet, 0, dtf.format(now));
 
         double reward = Reel.rewardCalculator(this.partida, reel1, reel2, reel3);
 
         reward = Math.floor(reward * 100) / 100;
-        
-        System.out.println(reward);
 
         double balance = reward - bet;
-        
+
         this.partida.setBalance(balance);
-        
-        System.out.println(partida.toString());
-        
+
         String[] dateTime = partida.toStringDateTime().split(" ");
-        
-        System.out.println(partida.toString() + dateTime[0] +" "+ dateTime[1]);
-        
-        HttpSession session = (HttpSession) request.getSession();
-        
-        user = (User) session.getAttribute("usuario"); 
-        
-        try{
-            System.out.println(user);
-        }catch(Exception e){
+
+        HttpSession h = request.getSession();
+        System.out.println("Sesion consulta: " + h.getId());
+        int idUser = (Integer) h.getAttribute("usuario");
+
+        try {
+            System.out.println("idUser: " + idUser);
+        } catch (Exception e) {
             System.out.println("Error: " + e);
         }
-        
+
         response.getWriter().append("{\"num1\":\"" + reel1.getNum1() + "\",\"num2\":\"" + reel1.getNum2() + "\",\"num3\":\"" + reel1.getNum3() + "\",\"num4\":\"" + reel2.getNum1() + "\",\"num5\":\"" + reel2.getNum2() + "\",\"num6\":\"" + reel2.getNum3() + "\",\"num7\":\"" + reel3.getNum1() + "\",\"num8\":\"" + reel3.getNum2() + "\",\"num9\":\"" + reel3.getNum3() + "\",\"reward\":\"" + reward + "\"}");
         /*
         try {
