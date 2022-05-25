@@ -95,7 +95,8 @@ public class QueryClass {
     }
 
     public static void updateDB(int idUser, Partida partida) throws SQLException {
-
+        
+        
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 

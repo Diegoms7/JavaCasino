@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 @WebServlet(name = "SlotGame", urlPatterns = {"/SlotGame"})
 public class SlotGame extends HttpServlet {
 
-    User user;
+    int idUser;
     double bet = 0.00;
     Partida partida;
 
@@ -72,7 +72,8 @@ public class SlotGame extends HttpServlet {
             throws ServletException, IOException {
 
         response.addHeader("Access-Control-Allow-Origin", "*");
-
+        System.out.println(request.getParameter("id"));
+        
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
@@ -106,10 +107,6 @@ public class SlotGame extends HttpServlet {
 
         String[] dateTime = partida.toStringDateTime().split(" ");
 
-        HttpSession h = request.getSession();
-        System.out.println("Sesion consulta: " + h.getId());
-        int idUser = (Integer) h.getAttribute("usuario");
-
         try {
             System.out.println("idUser: " + idUser);
         } catch (Exception e) {
@@ -117,12 +114,12 @@ public class SlotGame extends HttpServlet {
         }
 
         response.getWriter().append("{\"num1\":\"" + reel1.getNum1() + "\",\"num2\":\"" + reel1.getNum2() + "\",\"num3\":\"" + reel1.getNum3() + "\",\"num4\":\"" + reel2.getNum1() + "\",\"num5\":\"" + reel2.getNum2() + "\",\"num6\":\"" + reel2.getNum3() + "\",\"num7\":\"" + reel3.getNum1() + "\",\"num8\":\"" + reel3.getNum2() + "\",\"num9\":\"" + reel3.getNum3() + "\",\"reward\":\"" + reward + "\"}");
-        /*
+        
         try {
-            QueryClass.updateDB(user, partida);
+            QueryClass.updateDB(idUser, partida);
         } catch (SQLException ex) {
             Logger.getLogger(SlotGame.class.getName()).log(Level.SEVERE, null, ex);
-        } */
+        } 
 
     }
 
@@ -140,6 +137,10 @@ public class SlotGame extends HttpServlet {
 
         response.addHeader("Access-Control-Allow-Origin", "*");
         this.bet = Double.parseDouble(request.getParameter("bet"));
+        System.out.println("recibo por parametro: " + request.getParameter("id"));
+        this.idUser = Integer.parseInt(request.getParameter("id"));
+        System.out.println("id: " + idUser);
+        
 
     }
 

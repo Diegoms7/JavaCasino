@@ -1,5 +1,12 @@
 package Casino;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class Reel implements numbersInterface {
 
     private int num1;
@@ -44,6 +51,7 @@ public class Reel implements numbersInterface {
         return "Reel{" + "num1:" + num1 + ", num2:" + num2 + ", num3" + num3 + '}';
     }
 
+    @Override
     public int getRandomNumber() {
         int min = 0;
         int max = 140;
@@ -51,6 +59,7 @@ public class Reel implements numbersInterface {
         return (int) ((Math.random() * (max - min)) + min);
     }
 
+    @Override
     public int numberSelector(int i) {
 
         if (i < 5) {
@@ -72,106 +81,129 @@ public class Reel implements numbersInterface {
 
     }
 
-    public static double rewardCalculator(Partida partida, Reel reel1, Reel reel2, Reel reel3) {
+    public static double rewardCalculator(Partida partida, Reel reel1, Reel reel2, Reel reel3) throws FileNotFoundException, IOException {
+        
+        BufferedReader br = new BufferedReader (new FileReader("parameters.txt"));
+        boolean eof = false;
+        String reader;
+        ArrayList parameters = new ArrayList();
+        
+        while (!eof){
+            reader = br.readLine();
+            if (reader != null){
+                parameters.add(reader);
+            }
+            
+            else{
+                eof = true;
+            }
+        }
+        
+        double bonus = Double.parseDouble((String) parameters.get(0));
+        double multiplyer = Double.parseDouble ((String) parameters.get(1));
+        double divisor = Double.parseDouble((String) parameters.get(2));
+        double horizontal = Double.parseDouble((String) parameters.get(3));
+        double diagonal = Double.parseDouble((String) parameters.get(4));
+        double combinada = Double.parseDouble((String) parameters.get(5));
 
         double reward = 0;
 
         if (reel1.getNum1() == reel1.getNum2() && reel1.getNum1() == reel1.getNum3()) {
 
             if (reel1.getNum1() == 1) {
-                reward = reward + (2 * partida.getBet() * 24) / reel1.getNum1();
+                reward = reward + (multiplyer * partida.getBet() * bonus) / reel1.getNum1();
             }
-            reward = reward + (2 * partida.getBet() * 3) / (reel1.getNum1() / 2.0);
+            reward = reward + (multiplyer * partida.getBet() * horizontal) / (reel1.getNum1() / divisor);
 
         }
 
         if (reel2.getNum1() == reel2.getNum2() && reel2.getNum1() == reel2.getNum3()) {
 
             if (reel2.getNum1() == 1) {
-                reward = reward + (2 * partida.getBet() * 24) / reel2.getNum1();
+                reward = reward + (multiplyer * partida.getBet() * bonus) / reel2.getNum1();
             }
-            reward = reward + (2 * partida.getBet() * 3) / (reel2.getNum1() / 2.0);
+            reward = reward + (multiplyer * partida.getBet() * horizontal) / (reel2.getNum1() / divisor);
 
         }
 
         if (reel3.getNum1() == reel3.getNum2() && reel3.getNum1() == reel3.getNum3()) {
 
             if (reel3.getNum1() == 1) {
-                reward = reward + (2 * partida.getBet() * 24) / reel3.getNum1();
+                reward = reward + (multiplyer * partida.getBet() * bonus) / reel3.getNum1();
             }
-            reward = reward + (2 * partida.getBet() * 3) / (reel3.getNum1() / 2.0);
+            reward = reward + (multiplyer * partida.getBet() * horizontal) / (reel3.getNum1() / divisor);
 
         }
 
         if (reel1.getNum1() == reel2.getNum2() && reel1.getNum1() == reel3.getNum3()) {
 
             if (reel1.getNum1() == 1) {
-                reward = reward + (2 * partida.getBet() * 18) / reel1.getNum1();
+                reward = reward + (multiplyer * partida.getBet() * bonus) / reel1.getNum1();
             }
-            reward = reward + (2 * partida.getBet() * 2) / (reel1.getNum1() / 2.0);
+            reward = reward + (multiplyer * partida.getBet() * diagonal) / (reel1.getNum1() / divisor);
 
         }
 
         if (reel3.getNum1() == reel2.getNum2() && reel3.getNum1() == reel1.getNum3()) {
 
             if (reel3.getNum1() == 1) {
-                reward = reward + (2 * partida.getBet() * 18) / reel3.getNum1();
+                reward = reward + (multiplyer * partida.getBet() * bonus) / reel3.getNum1();
             }
-            reward = reward + (2 * partida.getBet() * 2) / (reel3.getNum1() / 2.0);
+            reward = reward + (multiplyer * partida.getBet() * diagonal) / (reel3.getNum1() / divisor);
 
         }
 
         if (reel1.getNum1() == reel1.getNum2() && reel1.getNum1() == reel2.getNum3()) {
 
             if (reel1.getNum1() == 1) {
-                reward = reward + (2 * partida.getBet() * 12) / reel1.getNum1();
+                reward = reward + (multiplyer * partida.getBet() * bonus) / reel1.getNum1();
             }
-            reward = reward + (2 * partida.getBet()) * 1.5 / (reel1.getNum1() / 2.0);
+            reward = reward + (multiplyer * partida.getBet()) * combinada / (reel1.getNum1() / divisor);
 
         }
 
         if (reel3.getNum1() == reel3.getNum2() && reel3.getNum1() == reel2.getNum3()) {
 
             if (reel3.getNum1() == 1) {
-                reward = reward + (2 * partida.getBet() * 12) / reel3.getNum1();
+                reward = reward + (multiplyer * partida.getBet() * bonus) / reel3.getNum1();
             }
-            reward = reward + (2 * partida.getBet() * 1.5) / (reel3.getNum1() / 2.0);
+            reward = reward + (multiplyer * partida.getBet() * combinada) / (reel3.getNum1() / divisor);
 
         }
 
         if (reel2.getNum1() == reel3.getNum2() && reel2.getNum1() == reel3.getNum3()) {
 
             if (reel2.getNum1() == 1) {
-                reward = reward + (2 * partida.getBet() * 12) / reel2.getNum1();
+                reward = reward + (multiplyer * partida.getBet() * bonus) / reel2.getNum1();
             }
-            reward = reward + (2 * partida.getBet()) * 1.5 / (reel2.getNum1() / 2.0);
+            reward = reward + (multiplyer * partida.getBet() * combinada) / (reel2.getNum1() / divisor);
 
         }
 
         if (reel2.getNum1() == reel1.getNum2() && reel2.getNum1() == reel1.getNum3()) {
 
             if (reel2.getNum1() == 1) {
-                reward = reward + (2 * partida.getBet() * 12) / reel2.getNum1();
+                reward = reward + (multiplyer * partida.getBet() * bonus) / reel2.getNum1();
             }
-            reward = reward + (2 * partida.getBet() * 1.5) / (reel2.getNum1() / 2.0);
+            reward = reward + (multiplyer * partida.getBet() * combinada) / (reel2.getNum1() / divisor);
 
         }
 
         if (reel2.getNum1() == reel1.getNum2() && reel2.getNum1() == reel2.getNum3()) {
 
             if (reel2.getNum1() == 1) {
-                reward = reward + (2 * partida.getBet() * 12) / reel2.getNum1();
+                reward = reward + (multiplyer * partida.getBet() * bonus) / reel2.getNum1();
             }
-            reward = reward + (2 * partida.getBet() * 1.5) / (reel2.getNum1() / 2.0);
+            reward = reward + (multiplyer * partida.getBet() * combinada) / (reel2.getNum1() / divisor);
 
         }
 
         if (reel2.getNum1() == reel3.getNum2() && reel2.getNum1() == reel2.getNum3()) {
 
             if (reel2.getNum1() == 1) {
-                reward = reward + (2 * partida.getBet() * 12) / reel2.getNum1();
+                reward = reward + (multiplyer * partida.getBet() * bonus) / reel2.getNum1();
             }
-            reward = reward + (2 * partida.getBet() * 1.5) / (reel2.getNum1() / 2.0);
+            reward = reward + (multiplyer * partida.getBet() * combinada) / (reel2.getNum1() / divisor);
 
         }
 

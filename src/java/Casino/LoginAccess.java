@@ -48,9 +48,7 @@ public class LoginAccess extends HttpServlet {
 
         response.addHeader("Access-Control-Allow-Origin", "*");
         boolean verify = false;
-        
-        HttpSession h = request.getSession(true);
-
+         
         this.user = new User(-1, request.getParameter("password"), "", "", request.getParameter("username"), "");
 
         try {
@@ -68,10 +66,6 @@ public class LoginAccess extends HttpServlet {
                 this.user.setId((QueryClass.userData(this.user).getId()));
 
                 response.getWriter().append("{\"ID\":\"" + this.user.getId() + "\",\"DNI\":\"" + this.user.toStringDNI() + "\",\"FullName\":\"" + this.user.toStringFullName() + "\",\"Birth\":\"" + this.user.toStringNacimiento() + "\",\"Name\":\"" + this.user.toStringNombre() + "\", \"Check\":" + verify + "}");
-
-                h.setAttribute("usuario", this.user.getId());
-                System.out.println(h.getAttribute("usuario"));
-                System.out.println("Sesion creación: " + h.getId());
 
             } catch (SQLException ex) {
                 Logger.getLogger(LoginAccess.class.getName()).log(Level.SEVERE, null, ex);
