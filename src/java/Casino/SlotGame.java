@@ -76,7 +76,7 @@ public class SlotGame extends HttpServlet {
         
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-
+        
         int id = 3;
 
         Reel reel1 = new Reel();
@@ -106,12 +106,6 @@ public class SlotGame extends HttpServlet {
         this.partida.setBalance(balance);
 
         String[] dateTime = partida.toStringDateTime().split(" ");
-
-        try {
-            System.out.println("idUser: " + idUser);
-        } catch (Exception e) {
-            System.out.println("Error: " + e);
-        }
 
         response.getWriter().append("{\"num1\":\"" + reel1.getNum1() + "\",\"num2\":\"" + reel1.getNum2() + "\",\"num3\":\"" + reel1.getNum3() + "\",\"num4\":\"" + reel2.getNum1() + "\",\"num5\":\"" + reel2.getNum2() + "\",\"num6\":\"" + reel2.getNum3() + "\",\"num7\":\"" + reel3.getNum1() + "\",\"num8\":\"" + reel3.getNum2() + "\",\"num9\":\"" + reel3.getNum3() + "\",\"reward\":\"" + reward + "\"}");
         
