@@ -109,8 +109,10 @@ public class QueryClass {
         Connection con = DriverManager.getConnection(JDBC, "root", "43226225w");
 
         Statement st = con.createStatement();
+        
+        System.out.println(partida.toStringDateTime());
 
-        String update = "INSERT INTO partida VALUES (\"" + partida.getIdJuego() + "\", \"" + idUser + "\", \"" + partida.getBet() + "\",\"" + partida.getBalance() + "\",\"" + partida.getFechaHora() + "\");";
+        String update = "INSERT INTO partida VALUES (" + 0 + ", " + partida.getIdJuego() + ", " + idUser + ", " + partida.getBet() + "," + partida.getBalance() + ",'" + partida.toStringDateTime() + "');";
 
         st.executeUpdate(update);
 
