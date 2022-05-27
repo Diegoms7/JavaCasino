@@ -1,4 +1,3 @@
-
 package Casino;
 
 import jakarta.servlet.ServletException;
@@ -11,8 +10,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-
 /**
  *
  * @author 34601
@@ -20,31 +17,29 @@ import java.util.logging.Logger;
 @WebServlet(name = "InsertCredit", urlPatterns = {"/InsertCredit"})
 public class InsertCredit extends HttpServlet {
 
-   
-    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
+        response.addHeader("Access-Control-Allow-Origin", "*");
+
         double credit = Double.parseDouble(request.getParameter("credito"));
-        String DNI = request.getParameter("DNI");
-        
+        String DNI = request.getParameter("dni");
+
         try {
             QueryClass.InsertCredit(credit, DNI);
         } catch (SQLException ex) {
             Logger.getLogger(InsertCredit.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
-    
     @Override
     public String getServletInfo() {
         return "Short description";

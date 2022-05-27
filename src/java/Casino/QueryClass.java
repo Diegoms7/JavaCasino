@@ -153,6 +153,11 @@ public class QueryClass {
         
         String query = "UPDATE datosusuario SET Credito = " + credit + " WHERE DNI = '" + DNI + "';";
         
+        st.executeUpdate(query);
+        
+        System.out.println("Query: " + query);
+        System.out.println("Se ha realizado el update!");
+        
     }
     
     

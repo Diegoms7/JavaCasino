@@ -74,13 +74,20 @@ public class SlotGame extends HttpServlet {
             throws ServletException, IOException {
 
         response.addHeader("Access-Control-Allow-Origin", "*");
-        System.out.println(request.getParameter("id"));
+        
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-
+        User user = new User();
+        
         int id = 3;
-        do {
+        
+        if (credito > 0) {
+            
+            HttpSession session = request.getSession();
+            System.out.println("sesion consulta:" + session.getId());
+            user = (User) session.getAttribute("user");
+            
             
             Reel reel1 = new Reel();
             Reel reel2 = new Reel();
@@ -126,7 +133,7 @@ public class SlotGame extends HttpServlet {
                 Logger.getLogger(SlotGame.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-        } while (credito > 0);
+        } 
         
         
 
