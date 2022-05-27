@@ -28,7 +28,9 @@ import java.util.logging.Logger;
 public class SlotGame extends HttpServlet {
 
     int idUser;
+    String dniUser;
     double bet = 0.00;
+    double credito;
     Partida partida;
 
     /**
@@ -73,47 +75,60 @@ public class SlotGame extends HttpServlet {
 
         response.addHeader("Access-Control-Allow-Origin", "*");
         System.out.println(request.getParameter("id"));
-        
+
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        
+
         int id = 3;
+        do {
+            
+            Reel reel1 = new Reel();
+            Reel reel2 = new Reel();
+            Reel reel3 = new Reel();
 
-        Reel reel1 = new Reel();
-        Reel reel2 = new Reel();
-        Reel reel3 = new Reel();
+            reel1.setNum1(reel1.numberSelector(reel1.getRandomNumber()));
+            reel1.setNum2(reel1.numberSelector(reel1.getRandomNumber()));
+            reel1.setNum3(reel1.numberSelector(reel1.getRandomNumber()));
 
-        reel1.setNum1(reel1.numberSelector(reel1.getRandomNumber()));
-        reel1.setNum2(reel1.numberSelector(reel1.getRandomNumber()));
-        reel1.setNum3(reel1.numberSelector(reel1.getRandomNumber()));
+            reel2.setNum1(reel2.numberSelector(reel2.getRandomNumber()));
+            reel2.setNum2(reel2.numberSelector(reel2.getRandomNumber()));
+            reel2.setNum3(reel2.numberSelector(reel2.getRandomNumber()));
 
-        reel2.setNum1(reel2.numberSelector(reel2.getRandomNumber()));
-        reel2.setNum2(reel2.numberSelector(reel2.getRandomNumber()));
-        reel2.setNum3(reel2.numberSelector(reel2.getRandomNumber()));
+            reel3.setNum1(reel3.numberSelector(reel3.getRandomNumber()));
+            reel3.setNum2(reel3.numberSelector(reel3.getRandomNumber()));
+            reel3.setNum3(reel3.numberSelector(reel3.getRandomNumber()));
 
-        reel3.setNum1(reel3.numberSelector(reel3.getRandomNumber()));
-        reel3.setNum2(reel3.numberSelector(reel3.getRandomNumber()));
-        reel3.setNum3(reel3.numberSelector(reel3.getRandomNumber()));
+            partida = new Partida(id, bet, 0, dtf.format(now));
 
-        partida = new Partida(id, bet, 0, dtf.format(now));
+            double reward = Reel.rewardCalculator(this.partida, reel1, reel2, reel3);
 
-        double reward = Reel.rewardCalculator(this.partida, reel1, reel2, reel3);
+            reward = Math.floor(reward * 100) / 100;
 
-        reward = Math.floor(reward * 100) / 100;
+            double balance = reward - bet;
 
-        double balance = reward - bet;
+            credito = credito + balance;
 
-        this.partida.setBalance(balance);
+            this.partida.setBalance(balance);
 
-        String[] dateTime = partida.toStringDateTime().split(" ");
+            String[] dateTime = partida.toStringDateTime().split(" ");
 
-        response.getWriter().append("{\"num1\":\"" + reel1.getNum1() + "\",\"num2\":\"" + reel1.getNum2() + "\",\"num3\":\"" + reel1.getNum3() + "\",\"num4\":\"" + reel2.getNum1() + "\",\"num5\":\"" + reel2.getNum2() + "\",\"num6\":\"" + reel2.getNum3() + "\",\"num7\":\"" + reel3.getNum1() + "\",\"num8\":\"" + reel3.getNum2() + "\",\"num9\":\"" + reel3.getNum3() + "\",\"reward\":\"" + reward + "\"}");
+            response.getWriter().append("{\"num1\":\"" + reel1.getNum1() + "\",\"num2\":\"" + reel1.getNum2() + "\",\"num3\":\"" + reel1.getNum3() + "\",\"num4\":\"" + reel2.getNum1() + "\",\"num5\":\"" + reel2.getNum2() + "\",\"num6\":\"" + reel2.getNum3() + "\",\"num7\":\"" + reel3.getNum1() + "\",\"num8\":\"" + reel3.getNum2() + "\",\"num9\":\"" + reel3.getNum3() + "\",\"reward\":\"" + reward + "\"}");
+
+            try {
+                QueryClass.updateDB(idUser, partida);
+            } catch (SQLException ex) {
+                Logger.getLogger(SlotGame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            try {
+                QueryClass.InsertCredit(credito, dniUser);
+            } catch (SQLException ex) {
+                Logger.getLogger(SlotGame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        } while (credito > 0);
         
-        try {
-            QueryClass.updateDB(idUser, partida);
-        } catch (SQLException ex) {
-            Logger.getLogger(SlotGame.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        
 
     }
 
@@ -131,10 +146,16 @@ public class SlotGame extends HttpServlet {
 
         response.addHeader("Access-Control-Allow-Origin", "*");
         this.bet = Double.parseDouble(request.getParameter("bet"));
-        System.out.println("recibo por parametro: " + request.getParameter("id"));
         this.idUser = Integer.parseInt(request.getParameter("id"));
-        System.out.println("id: " + idUser);
+        this.credito = Double.parseDouble(request.getParameter("credito"));
+        this.dniUser = request.getParameter("dni");
         
+
+        if (bet > credito) {
+            response.getWriter().append("0");
+        } else {
+            response.getWriter().append("1");
+        }
 
     }
 

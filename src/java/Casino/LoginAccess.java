@@ -64,8 +64,9 @@ public class LoginAccess extends HttpServlet {
                 this.user.setApellido(QueryClass.userData(this.user).getApellido());
                 this.user.setFechaNacimiento(QueryClass.userData(this.user).getFechaNacimiento());
                 this.user.setId((QueryClass.userData(this.user).getId()));
+                this.user.setCredito(QueryClass.userData(this.user).getCredito());
 
-                response.getWriter().append("{\"ID\":\"" + this.user.getId() + "\",\"DNI\":\"" + this.user.toStringDNI() + "\",\"FullName\":\"" + this.user.toStringFullName() + "\",\"Birth\":\"" + this.user.toStringNacimiento() + "\",\"Name\":\"" + this.user.toStringNombre() + "\", \"Check\":" + verify + "}");
+                response.getWriter().append("{\"ID\":\"" + this.user.getId() + "\",\"DNI\":\"" + this.user.toStringDNI() + "\",\"FullName\":\"" + this.user.toStringFullName() + "\",\"Birth\":\"" + this.user.toStringNacimiento() + "\",\"Name\":\"" + this.user.toStringNombre() + "\", \"Credito\":\"" + this.user.toStringCredito() + "\", \"Check\":" + verify + "}");
 
             } catch (SQLException ex) {
                 Logger.getLogger(LoginAccess.class.getName()).log(Level.SEVERE, null, ex);

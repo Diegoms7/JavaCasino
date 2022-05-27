@@ -79,7 +79,7 @@ public class QueryClass {
         while (rs.next()) {
             user.setNombre(rs.getString("Nombre"));
             user.setApellido(rs.getString("Apellido"));
-            //user.setCredito(Double.parseDouble(rs.getString("Credito")));
+            user.setCredito(Double.parseDouble(rs.getString("Credito")));
             user.setFechaNacimiento(rs.getString("fechaNacimiento"));
 
         }
@@ -138,5 +138,23 @@ public class QueryClass {
         st.executeUpdate(insert2);
         st.executeUpdate(insert3);
     }
+    
+    public static void InsertCredit(double credit, String DNI) throws SQLException{
+        
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(QueryClass.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        Connection con = DriverManager.getConnection(JDBC, "root", "43226225w");
+
+        Statement st = con.createStatement();
+        
+        String query = "UPDATE datosusuario SET Credito = " + credit + " WHERE DNI = '" + DNI + "';";
+        
+    }
+    
+    
 
 }
