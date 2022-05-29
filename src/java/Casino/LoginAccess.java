@@ -48,37 +48,48 @@ public class LoginAccess extends HttpServlet {
 
         response.addHeader("Access-Control-Allow-Origin", "*");
         boolean verify = false;
-         
+        boolean ban = true;
+
         this.user = new User(-1, request.getParameter("password"), "", "", request.getParameter("username"), "");
-
         try {
-            verify = QueryClass.login(this.user);
-
+            ban = QueryClass.banCheck(user);
         } catch (SQLException ex) {
             Logger.getLogger(LoginAccess.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if (verify == true) {
+        if (ban == false) {
             try {
-                this.user.setNombre(QueryClass.userData(this.user).getNombre());
-                this.user.setApellido(QueryClass.userData(this.user).getApellido());
-                this.user.setFechaNacimiento(QueryClass.userData(this.user).getFechaNacimiento());
-                this.user.setId((QueryClass.userData(this.user).getId()));
-                this.user.setCredito(QueryClass.userData(this.user).getCredito());
-                
-                HttpSession session = request.getSession();
-                System.out.println("sesion creada:" + session.getId());
-                session.setAttribute("user", user);
-
-                response.getWriter().append("{\"ID\":\"" + this.user.getId() + "\",\"DNI\":\"" + this.user.toStringDNI() + "\",\"FullName\":\"" + this.user.toStringFullName() + "\",\"Birth\":\"" + this.user.toStringNacimiento() + "\",\"Name\":\"" + this.user.toStringNombre() + "\", \"Credito\":\"" + this.user.toStringCredito() + "\", \"Check\":" + verify + "}");
+                verify = QueryClass.login(this.user);
 
             } catch (SQLException ex) {
                 Logger.getLogger(LoginAccess.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        } else {
-            response.getWriter().append("{\"ID\":\"" + this.user.getId() + "\",\"DNI\":\"" + this.user.toStringDNI() + "\",\"FullName\":\"" + this.user.toStringFullName() + "\",\"Birth\":\"" + this.user.toStringNacimiento() + "\",\"Name\":\"" + this.user.toStringNombre() + "\", \"Check\":" + verify + "}");
+            if (verify == true) {
+                try {
+                    this.user.setNombre(QueryClass.userData(this.user).getNombre());
+                    this.user.setApellido(QueryClass.userData(this.user).getApellido());
+                    this.user.setFechaNacimiento(QueryClass.userData(this.user).getFechaNacimiento());
+                    this.user.setId((QueryClass.userData(this.user).getId()));
+                    this.user.setCredito(QueryClass.userData(this.user).getCredito());
 
+                    HttpSession session = request.getSession();
+                    System.out.println("sesion creada:" + session.getId());
+                    session.setAttribute("user", user);
+
+                    response.getWriter().append("{\"ID\":\"" + this.user.getId() + "\",\"DNI\":\"" + this.user.toStringDNI() + "\",\"FullName\":\"" + this.user.toStringFullName() + "\",\"Birth\":\"" + this.user.toStringNacimiento() + "\",\"Name\":\"" + this.user.toStringNombre() + "\", \"Credito\":\"" + this.user.toStringCredito() + "\", \"Check\":" + verify + "}");
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(LoginAccess.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } else {
+                response.getWriter().append("{\"ID\":\"" + this.user.getId() + "\",\"DNI\":\"" + this.user.toStringDNI() + "\",\"FullName\":\"" + this.user.toStringFullName() + "\",\"Birth\":\"" + this.user.toStringNacimiento() + "\",\"Name\":\"" + this.user.toStringNombre() + "\", \"Check\":" + verify + "}");
+
+            }
+        }
+        else{
+            response.getWriter().append("Esta cuenta tiene el acceso restringido");
         }
 
     }

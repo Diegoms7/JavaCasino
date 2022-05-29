@@ -160,6 +160,33 @@ public class QueryClass {
         
     }
     
+    public static boolean banCheck(User user) throws SQLException{
+        
+        boolean ban = false;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(QueryClass.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        Connection con = DriverManager.getConnection(JDBC, "root", "43226225w");
+        
+        CallableStatement cstmt = con.prepareCall("{CALL existe(? , ?)}");
+
+        cstmt.setString(1, user.getDni());
+
+        cstmt.registerOutParameter(2, Types.BOOLEAN);
+
+        cstmt.execute();
+
+        if (cstmt.getInt(2) == 1) {
+            ban = true;
+            
+        }
+        
+        return ban;
+    }
+    
     
 
 }
