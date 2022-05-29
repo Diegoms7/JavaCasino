@@ -181,7 +181,6 @@ public class QueryClass {
 
         if (cstmt.getInt(2) == 1) {
             ban = true;
-            
         }
         
         return ban;
