@@ -84,9 +84,10 @@ public class SlotGame extends HttpServlet {
         
         if (credito > 0) {
             
-            HttpSession session = request.getSession();
+            //ARREGLAR
+            /*HttpSession session = request.getSession();
             System.out.println("sesion consulta:" + session.getId());
-            user = (User) session.getAttribute("user");
+            user = (User) session.getAttribute("user"); */
             
             
             Reel reel1 = new Reel();

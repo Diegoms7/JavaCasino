@@ -73,9 +73,10 @@ public class LoginAccess extends HttpServlet {
                     this.user.setId((QueryClass.userData(this.user).getId()));
                     this.user.setCredito(QueryClass.userData(this.user).getCredito());
 
-                    HttpSession session = request.getSession();
+                    //ARREGLAR
+                   /* HttpSession session = request.getSession();
                     System.out.println("sesion creada:" + session.getId());
-                    session.setAttribute("user", user);
+                    session.setAttribute("user", user); */
 
                     response.getWriter().append("{\"ID\":\"" + this.user.getId() + "\",\"DNI\":\"" + this.user.toStringDNI() + "\",\"FullName\":\"" + this.user.toStringFullName() + "\",\"Birth\":\"" + this.user.toStringNacimiento() + "\",\"Name\":\"" + this.user.toStringNombre() + "\", \"Credito\":\"" + this.user.toStringCredito() + "\", \"Check\":" + verify + "}");
 
