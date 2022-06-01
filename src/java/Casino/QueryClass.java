@@ -57,6 +57,7 @@ public class QueryClass {
             }
         }
         
+        cstmt.close();
         return login;
     }
 
@@ -88,7 +89,8 @@ public class QueryClass {
         while (rs.next()) {
             user.setId(Integer.parseInt(rs.getString("id")));
         }
-
+        
+        con.close();
         return user;
 
     }
@@ -114,6 +116,8 @@ public class QueryClass {
         String update = "INSERT INTO partida VALUES (" + 0 + ", " + partida.getIdJuego() + ", " + idUser + ", " + partida.getBet() + "," + partida.getBalance() + ",'" + partida.toStringDateTime() + "');";
 
         st.executeUpdate(update);
+        
+        con.close();
 
     }
 
@@ -136,6 +140,8 @@ public class QueryClass {
         st.executeUpdate(insert1);
         st.executeUpdate(insert2);
         st.executeUpdate(insert3);
+        
+        con.close();
     }
     
     public static void InsertCredit(double credit, String DNI) throws SQLException{
@@ -154,8 +160,7 @@ public class QueryClass {
         
         st.executeUpdate(query);
         
-        System.out.println("Query: " + query);
-        System.out.println("Se ha realizado el update!");
+        con.close();
         
     }
     
@@ -183,6 +188,8 @@ public class QueryClass {
             ban = true;
         }
         
+        con.close();
+        
         return ban;
     }
 
@@ -207,11 +214,15 @@ public class QueryClass {
             
             
             st.executeUpdate(query);
+            
+            con.close();
         
         }
         else{
             delete = false;
         }
+        
+        
         return delete;
 
     }

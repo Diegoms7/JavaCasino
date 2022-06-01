@@ -1,7 +1,6 @@
 package Casino;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -105,7 +104,9 @@ public class Reel implements numbersInterface {
         double horizontal = Double.parseDouble((String) parameters.get(3));
         double diagonal = Double.parseDouble((String) parameters.get(4));
         double combinada = Double.parseDouble((String) parameters.get(5));
-
+        
+        br.close();
+        
         double reward = 0;
 
         if (reel1.getNum1() == reel1.getNum2() && reel1.getNum1() == reel1.getNum3()) {
