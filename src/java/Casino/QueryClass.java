@@ -212,9 +212,9 @@ public class QueryClass {
 
         Connection con = DriverManager.getConnection(JDBC, "root", "43226225w");
         
-        CallableStatement cstmt = con.prepareCall("{CALL existe(? , ?)}");
+        CallableStatement cstmt = con.prepareCall("{CALL banCheck(? , ?)}");
 
-        cstmt.setString(1, user.getDni());
+        cstmt.setString(1, user.toStringId() );
 
         cstmt.registerOutParameter(2, Types.BOOLEAN);
 
