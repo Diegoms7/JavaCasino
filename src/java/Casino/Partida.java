@@ -4,6 +4,7 @@ package Casino;
 
 public class Partida {
     
+    //Creación de clase 'Partida'
     private int id;
     private int idJuego;
     private double bet;

@@ -71,10 +71,12 @@ public class DeleteUser extends HttpServlet {
         String passwd = request.getParameter("password");
         
         try {
+            //Si el usuario ha sido borrado, envio 1 (true) al frontend para mostrarlo
             if (QueryClass.deleteUser(DNI, passwd) == true){
                 response.getWriter().append("1");
             }
             else{
+                //Si el usuario no ha sido borrado, envio 0 (false) al frontend para mostrarlo
                 response.getWriter().append("0");
             }
         } catch (SQLException ex) {

@@ -52,6 +52,7 @@ public class Reel implements numbersInterface {
 
     @Override
     public int getRandomNumber() {
+        //método que genera un número aleatorio en el rango [0,140)
         int min = 0;
         int max = 140;
 
@@ -60,6 +61,8 @@ public class Reel implements numbersInterface {
 
     @Override
     public int numberSelector(int i) {
+        
+        //Se atribuye un valor a ese número según el rango en el que se encuentre
 
         if (i < 5) {
             i = 1;
@@ -81,6 +84,7 @@ public class Reel implements numbersInterface {
     }
 
     public static double rewardCalculator(Partida partida, Reel reel1, Reel reel2, Reel reel3) throws FileNotFoundException, IOException {
+        //método de calculo de premios
         
         BufferedReader br = new BufferedReader (new FileReader("parameters.txt"));
         boolean eof = false;
@@ -98,6 +102,7 @@ public class Reel implements numbersInterface {
             }
         }
         
+        //Se atribuyen los multiplicadores de las lineas segun lo establecido en el archivo de texto
         double bonus = Double.parseDouble((String) parameters.get(0));
         double multiplyer = Double.parseDouble ((String) parameters.get(1));
         double divisor = Double.parseDouble((String) parameters.get(2));
@@ -108,7 +113,9 @@ public class Reel implements numbersInterface {
         br.close();
         
         double reward = 0;
-
+        
+        //Cálculo de premio según las combinaciones resultantes
+        
         if (reel1.getNum1() == reel1.getNum2() && reel1.getNum1() == reel1.getNum3()) {
 
             if (reel1.getNum1() == 1) {

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class User implements Serializable{
+    
+    //Creación de clase 'User'
 
     private int id;
     private String password;

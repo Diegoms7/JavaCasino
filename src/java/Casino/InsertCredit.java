@@ -25,7 +25,8 @@ public class InsertCredit extends HttpServlet {
             throws ServletException, IOException {
 
         response.addHeader("Access-Control-Allow-Origin", "*");
-
+        
+        //Se reciben por parámetro el valor del usuario y su dni
         double credit = Double.parseDouble(request.getParameter("credito"));
         String DNI = request.getParameter("dni");
 

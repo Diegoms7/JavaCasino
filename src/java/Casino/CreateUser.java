@@ -60,8 +60,10 @@ public class CreateUser extends HttpServlet {
         response.addHeader("Access-Control-Allow-Origin", "*");
 
         try {
+            
+            //Creación de objeto usuario que pasamos por parámetro al método
             User user = new User(0, request.getParameter("password"), request.getParameter("nombre"), request.getParameter("surnames"), request.getParameter("dni"), request.getParameter("date"), 0.0);
-
+            
             QueryClass.newUser(user);
             
             response.getWriter().append("Usuario creado!");

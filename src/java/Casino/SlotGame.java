@@ -79,17 +79,13 @@ public class SlotGame extends HttpServlet {
         int id = 3;
         
         if (credito > 0) {
-            
-            //ARREGLAR
-            /*HttpSession session = request.getSession();
-            System.out.println("sesion consulta:" + session.getId());
-            user = (User) session.getAttribute("user"); */
-            
-            
+           
+            //Creación de los rodillos
             Reel reel1 = new Reel();
             Reel reel2 = new Reel();
             Reel reel3 = new Reel();
-
+            
+            //Setters de los rodillos usando métodos de generación de números aleatorios
             reel1.setNum1(reel1.numberSelector(reel1.getRandomNumber()));
             reel1.setNum2(reel1.numberSelector(reel1.getRandomNumber()));
             reel1.setNum3(reel1.numberSelector(reel1.getRandomNumber()));
@@ -101,13 +97,16 @@ public class SlotGame extends HttpServlet {
             reel3.setNum1(reel3.numberSelector(reel3.getRandomNumber()));
             reel3.setNum2(reel3.numberSelector(reel3.getRandomNumber()));
             reel3.setNum3(reel3.numberSelector(reel3.getRandomNumber()));
-
+            
+            //Creación de objeto partida
             partida = new Partida(id, bet, 0, dtf.format(now));
-
+            
+            //Cálculo de premios según los números resultantes
             double reward = Reel.rewardCalculator(this.partida, reel1, reel2, reel3);
 
             reward = Math.floor(reward * 100) / 100;
-
+            
+            //asignación de nuevos valores al balance de la partida y crédito del usuario
             double balance = reward - bet;
 
             credito = credito + balance;
@@ -115,7 +114,8 @@ public class SlotGame extends HttpServlet {
             this.partida.setBalance(balance);
 
             String[] dateTime = partida.toStringDateTime().split(" ");
-
+            
+            //Devolución en formato JSON de un objeto representante a los tres rodillos
             response.getWriter().append("{\"num1\":\"" + reel1.getNum1() + "\",\"num2\":\"" + reel1.getNum2() + "\",\"num3\":\"" + reel1.getNum3() + "\",\"num4\":\"" + reel2.getNum1() + "\",\"num5\":\"" + reel2.getNum2() + "\",\"num6\":\"" + reel2.getNum3() + "\",\"num7\":\"" + reel3.getNum1() + "\",\"num8\":\"" + reel3.getNum2() + "\",\"num9\":\"" + reel3.getNum3() + "\",\"reward\":\"" + reward + "\"}");
 
             try {
@@ -149,12 +149,14 @@ public class SlotGame extends HttpServlet {
             throws ServletException, IOException {
 
         response.addHeader("Access-Control-Allow-Origin", "*");
+        
+        //Recepción de valores a través de parámetro 
         this.bet = Double.parseDouble(request.getParameter("bet"));
         this.idUser = Integer.parseInt(request.getParameter("id"));
         this.credito = Double.parseDouble(request.getParameter("credito"));
         this.dniUser = request.getParameter("dni");
         
-
+        //Si se apuesta más que el crédito, se devuelve 0 (false)
         if (bet > credito) {
             response.getWriter().append("0");
         } else {
