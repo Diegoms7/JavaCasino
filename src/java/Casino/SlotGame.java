@@ -74,7 +74,7 @@ public class SlotGame extends HttpServlet {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        User user = new User();
+        
         
         int id = 3;
         
@@ -124,12 +124,7 @@ public class SlotGame extends HttpServlet {
                 Logger.getLogger(SlotGame.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            try {
-                QueryClass.InsertCredit(credito, dniUser);
-            } catch (SQLException ex) {
-                Logger.getLogger(SlotGame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+     
         } 
         
         
